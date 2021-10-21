@@ -1,0 +1,62 @@
+body {
+  background-color: #0f0f0f;
+  color: white;
+}
+
+main {
+  width: 100%;
+  max-width: 1400px;
+  margin: auto;
+}
+
+#heatmap {
+  width: 100%;
+}
+
+.flip-container {
+  font-size: 24px;
+  max-width: 1400px;
+  margin: auto;
+  margin-left: 50px;
+  margin-top: 50px;
+}
+
+.flip {
+  cursor: pointer;
+}
+
+.flip-container span {
+  font-weight: bold;
+}
+
+path.domain {
+  display: none;
+}
+
+g.tick line {
+  display: none;
+}
+
+g.tick text {
+  font-weight: bold;
+  font-size: 12px;
+  fill: white;
+}
+
+#grid {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: auto;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+#grid div {
+  width: 346px;
+}
+
+#grid img {
+  width: 100%;
+}
+/*# sourceMappingURL=styles.css.map */

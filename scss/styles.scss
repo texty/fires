@@ -1,0 +1,67 @@
+$bg-color:  #0f0f0f;
+$txt-color: white;
+
+body {
+    background-color: $bg-color;
+    color: $txt-color;
+}
+
+main {
+    width: 100%;
+    max-width: 1400px;
+    margin: auto;
+}
+
+#heatmap {
+    width: 100%;
+}
+
+.flip-container {
+    font-size: 24px;
+    max-width: 1400px;
+    margin: auto;
+    margin-left:50px;
+    margin-top: 50px;
+}
+
+.flip {
+    cursor: pointer;        
+}
+
+.flip-container span {
+    font-weight: bold;
+}
+
+path.domain {
+    display: none;
+}
+
+g.tick line {
+    display: none;
+}
+
+g.tick text {
+    font-weight: bold;
+    font-size: 12px;
+    fill: white;
+}
+
+.heat-item {
+    stroke: white;
+    stroke-opacity:0.1;
+
+}
+
+#grid {
+    display: flex;
+    margin: auto;
+    flex-wrap: wrap;
+
+    div {
+        width: 346px;
+    }
+
+    img {
+        width: 100%;
+    }    
+  }
