@@ -10,10 +10,31 @@ var wrapper =  d3.select("#heatmap").node().getBoundingClientRect().width;
 let gridItem = 350;
   
 
-d3.select("#grid")
-    .style("width", (Math.floor(wrapper/gridItem)) * gridItem + "px")
+d3.select("#grid").style("width", (Math.floor(wrapper/gridItem)) * gridItem + "px")
+
+//визначаємо карту
+var map = d3.select("div#map")
+    .append("svg")
+    .attr("preserveAspectRatio", "xMinYMin meet")
+    .attr("viewBox", "0 0 " + gridItem + " " + 220)      
+    .classed("svg-content", true);
+
+var projection = d3.geoMercator().translate([gridItem/2, 150]).scale(900).center([32,46.5]);
+var path = d3.geoPath().projection(projection);
+
+d3.json("data/ukr_shape.geojson").then(function(values){    
+    // draw map
+    map.selectAll("path")
+            .data(values.features)
+            .enter()
+            .append("path")
+            .attr("class","continent")
+            .attr("d", path)
+            .attr("stroke", "white");
+    });
 
 
+//малюємо основний графік
 var margin = {top: 50, right: 50, bottom: 100, left: 50},
     width = wrapper - margin.left - margin.right,
     height = 200 - margin.top - margin.bottom;
@@ -178,6 +199,8 @@ d3.json("http://airflow.backend-apps.com/api/v1/firestat/?format=json").then(fun
 
     //клік на тиждень
     function clickOnHeat(d){
+        console.log(d.date[0])
+        console.log(d3.timeFormat("%Y-%m-%d")(d.date[0]))
 
         //міняємо положення трикутника
         let xval = xScale(d.date[0]);
@@ -192,12 +215,30 @@ d3.json("http://airflow.backend-apps.com/api/v1/firestat/?format=json").then(fun
             .attr("x", xval - 30)
             .attr("y", (height + 40))
             .text(triangleBottomLabel(d))
+        
+        //точки на карту
+        d3.json("http://airflow.backend-apps.com/api/v1/fires/?country=Ukraine&start_date="+ d3.timeFormat("%Y-%m-%d")(d.date[0]) +"&end_date="+ d3.timeFormat("%Y-%m-%d")(d.date[1])).then(function(points){    
+                
+                // draw map
+                map.selectAll("circle").remove();
+
+                map.selectAll("circle")
+                    .data(points)
+                    .enter()
+                    .append("circle")
+                    .attr("class","circles")
+                    .attr("cx", function(d) {return projection([d.longitude, d.latitude])[0];})
+                    .attr("cy", function(d) {return projection([d.longitude, d.latitude])[1];})
+                    .attr("r", "1px")
+                    .attr("fill", "red")       
+            });
+
 
 
         //підвантажити супутникові знімки
         /* d3.select("#grid")
             .selectAll("div")
-            .data([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])
+            .data()
             .enter()
             .append("div")
             .style("border", "1px solid #fcccbe")
@@ -217,40 +258,7 @@ d3.json("http://airflow.backend-apps.com/api/v1/firestat/?format=json").then(fun
 
 
 
-
-
-   /* ----------------------------
-    ------------- карта ----------
-    ------------------------------ */
-    var map = d3.select("div#map")
-        .append("svg")
-        .attr("preserveAspectRatio", "xMinYMin meet")
-        .attr("viewBox", "0 0 " + gridItem + " " + 220)      
-        .classed("svg-content", true);
-
-    var projection = d3.geoMercator().translate([gridItem/2, 150]).scale(900).center([32,46.5]);
-    var path = d3.geoPath().projection(projection);
-
-    d3.json("data/ukr_shape.geojson").then(function(values){    
-        // draw map
-        map.selectAll("path")
-                .data(values.features)
-                .enter()
-                .append("path")
-                .attr("class","continent")
-                .attr("d", path)
-                .attr("stroke", "white");
-        /* // draw points
-            svg.selectAll("circle")
-                .data(values[1])
-                .enter()
-                .append("circle")
-                .attr("class","circles")
-                .attr("cx", function(d) {return projection([d.Longitude, d.Lattitude])[0];})
-                .attr("cy", function(d) {return projection([d.Longitude, d.Lattitude])[1];})
-                .attr("r", "1px");
-        */
-        });
+ 
 
 
 
