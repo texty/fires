@@ -1,3 +1,18 @@
+const bgColor = "#0f0f0f";
+const txtColor = "white"; 
+
+const parseDate = d3.timeParse("%Y-%m-%d");
+const formatDate = d3.timeFormat("%B");
+const formatDateMob = d3.timeFormat("%b");
+
+const bisect = d3.bisector(function(d) { return d.x; }).left;
+
+//виміряємо ширину контейнера з heatmap
+const wrapper =  d3.select("#heatmap").node().getBoundingClientRect().width;  
+
+//розмір одного знімку у гріді
+const gridItem = 200;
+
 var locale = d3.timeFormatLocale({
     "dateTime": "%A, %e %B %Y г. %X",
     "date": "%d.%m.%Y",
@@ -17,18 +32,10 @@ var formatMillisecond = locale.format(".%L"),
     formatDay = locale.format("%a %d"),
     formatWeek = locale.format("%b %d"),
     formatMonth = locale.format("%B"),
+    formatShortMonth = locale.format("%b"),
     formatYear = locale.format("%Y");
 
-function multiFormat(date) {
-    return (d3.timeSecond(date) < date ? formatMillisecond
-        : d3.timeMinute(date) < date ? formatSecond
-        : d3.timeHour(date) < date ? formatMinute
-        : d3.timeDay(date) < date ? formatHour
-        : d3.timeMonth(date) < date ? (d3.timeWeek(date) < date ? formatDay : formatWeek)
-        : d3.timeYear(date) < date ? formatMonth
-        : formatYear)(date);
-}
-        
+       
    /*   $.ajax({
         type: "GET",
         contentType: "application/json",

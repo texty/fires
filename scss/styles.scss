@@ -1,5 +1,8 @@
-$bg-color:  #0f0f0f;
-$txt-color: white;
+/* $bg-color:  #0f0f0f;
+$txt-color: white; */
+
+$bg-color:  white;
+$txt-color: #0f0f0f;
 
 body {
     background-color: $bg-color;
@@ -10,6 +13,24 @@ main {
     width: 100%;
     max-width: 1400px;
     margin: auto;
+}
+
+#map {
+    position: sticky;
+    top: 0px;
+    background-color: $bg-color;
+}
+
+#map path.admin0 {
+    fill: $bg-color;
+    stroke: $txt-color;
+    stroke-opacity: 0.3;
+    stroke-width: 1px;
+}
+
+#map .circles {
+    fill: red;
+    opacity: 0.5;
 }
 
 #heatmap {
@@ -32,6 +53,10 @@ main {
     font-weight: bold;
 }
 
+svg text {
+    fill: $txt-color;
+}
+
 path.domain {
     display: none;
 }
@@ -43,12 +68,13 @@ g.tick line {
 g.tick text {
     font-weight: bold;
     font-size: 12px;
-    fill: white;
+    fill: $txt-color;
 }
 
 .heat-item {
-    stroke: white;
+    stroke: $bg-color;
     stroke-opacity:0.1;
+    cursor: pointer;
 
 }
 
@@ -62,6 +88,6 @@ g.tick text {
     }
 
     img {
-        width: 100%;
+        width: 98%;
     }    
   }
