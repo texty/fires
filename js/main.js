@@ -21,7 +21,6 @@ d3.json("data/ukr_shape.geojson").then(function(values){
             .attr("d", path)            
     });
 
-
 //heatmap chart
 var margin = {top: 50, right: 40, bottom: 100, left: 40},
     width = wrapper - margin.left - margin.right,
@@ -50,10 +49,6 @@ svg.append("g")
 // color scale  
 var colorScale = d3.scaleSqrt()
     .range(["#311708","#fcbebe"])
-    /* .range(["#311708","#371c10","#3d2115","#43261a","#4a2b1f","#503025","#57352a","#5d3a2f","#644035","#6b453b","#724a40",
-        "#785046","#7f564c","#865b52","#8d6158","#94675f","#9c6d65","#a3736b","#aa7972","#b17f78","#b9857f","#c08b86",
-        "#c7918c","#cf9793","#d69e9a","#dea4a1","#e5aba8","#edb1af","#f4b7b7","#fcbebe"
-    ]) */
 
 //drag triangle with week label
 var focus_wrapper = svg.append('g'); 
@@ -138,7 +133,7 @@ d3.json("http://airflow.backend-apps.com/api/v1/firestat/?format=json").then(fun
 
 
 
-        //draw heatmap label (triangle with date, select year max fires by default)    
+        //draw heatmap label (triangle with date, year max fires by default)    
         let maxCount = d3.max(filtered, function(d){ return d.count })
         let xSelected = filtered.filter(function(d){ return d.count === maxCount })        
         let xval = xScale(xSelected[0].date[0]);
@@ -265,11 +260,11 @@ d3.json("http://airflow.backend-apps.com/api/v1/firestat/?format=json").then(fun
         // draw map
         map.selectAll("circle").remove();
 
-        map.selectAll("circle")
+        map.selectAll("circle.circle")
             .data(df)
             .enter()
             .append("circle")
-            .attr("class","circles")
+            .attr("class","circle")
             .attr("cx", function(k) {return projection([k.longitude, k.latitude])[0];})
             .attr("cy", function(k) {return projection([k.longitude, k.latitude])[1];})
             .attr("r", "1px")
@@ -287,10 +282,28 @@ d3.json("http://airflow.backend-apps.com/api/v1/firestat/?format=json").then(fun
         gridItem.append("img")
             .attr("class", "tip")
             .attr("src", "img/test-pic.png")
-            .attr("data-tippy-content", function(d){
-                return "Дата:" + d + "<br>" +
-                "Координати: " + d + "<br>" +
-                "Тривалість: " + d;
+            .on("mouseover", function(k){
+                map.selectAll(".highlight-marker").remove()
+                map.append("rect")
+                    .attr("class","highlight-marker")
+                    .attr("x", projection([k.longitude, k.latitude])[0] - 3)
+                    .attr("y",  projection([k.longitude, k.latitude])[1] - 3)
+                    .attr("width", 6)
+                    .attr("height",  6);                                    
+            })
+            .on("mouseleave", function(k){
+                map.selectAll(".highlight-marker").remove()                                               
+            })
+
+        gridItem.append("div")
+            .attr("class", "pic-tip")  
+            .append("p")          
+            .html(function(d){
+                return "Дата: "+ formatTips(d3.timeParse("%Y-%m-%d %H:%M:%S")(d.min_date)) + "<br>"+
+                       "Широта: "+ d.latitude + " пн. ш. " + "<br>"+ 
+                       "Довгота " + d.longitude + " сх. д. <br>"+
+                       "Тривалість: "
+
             })
     }
 

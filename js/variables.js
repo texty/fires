@@ -33,7 +33,8 @@ var formatMillisecond = locale.format(".%L"),
     formatWeek = locale.format("%b %d"),
     formatMonth = locale.format("%B"),
     formatShortMonth = locale.format("%b"),
-    formatYear = locale.format("%Y");
+    formatYear = locale.format("%Y"),
+    formatTips = locale.format("%d %b %Y");
 
        
    /*   $.ajax({

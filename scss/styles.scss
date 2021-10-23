@@ -19,6 +19,7 @@ main {
     position: sticky;
     top: 0px;
     background-color: $bg-color;
+    z-index: 10000000;
 }
 
 #map path.admin0 {
@@ -28,9 +29,14 @@ main {
     stroke-width: 1px;
 }
 
-#map .circles {
+#map .circle {
     fill: red;
     opacity: 0.5;
+}
+
+#map .highlight-marker {
+    stroke: rgb(29, 29, 1);
+    fill:transparent
 }
 
 #heatmap {
@@ -75,7 +81,6 @@ g.tick text {
     stroke: $bg-color;
     stroke-opacity:0.1;
     cursor: pointer;
-
 }
 
 #grid {
@@ -87,7 +92,33 @@ g.tick text {
         width: 346px;
     }
 
-    img {
+    .pic-wrapper {
+        position: relative;
+    }
+
+    .pic-tip {   
+        pointer-events: none;
+        display: none;
+        width: 98%;
+        height: 98%;
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
+        position: absolute;
+        top:0;
+        left:0;    
+    }
+    
+    .pic-tip p {
+        padding: 20px;
+        color: $bg-color;    
+        font-size: 18px;
+    }
+
+    img.tip {
+        cursor: pointer;
         width: 98%;
     }    
+
+    img.tip:hover + .pic-tip {
+        display: block;
+    }
   }
