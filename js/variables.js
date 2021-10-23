@@ -20,8 +20,7 @@ var locale = d3.timeFormatLocale({
     "periods": ["AM", "PM"],
     "days": ["неділя", "понеділок", "вівторок", "середа", "четвер", "п'ятница", "субота"],
     "shortDays": ["нд", "пн", "вт", "ср", "чт", "пт", "сб"],
-    "months": ["січень", "лютий", "березень", "квітень", "травень", "червень", "липень", "серпень", "вересень", "жовтень", 
-    "листопад", "грудень"],
+    "months": ["січень", "лютий", "березень", "квітень", "травень", "червень", "липень", "серпень", "вересень", "жовтень", "листопад", "грудень"],
     "shortMonths": ["січ", "лют", "бер", "квіт", "трав", "черв", "лип", "серп", "вер", "жовт", "лист", "груд"]
 });
 
@@ -36,7 +35,25 @@ var formatMillisecond = locale.format(".%L"),
     formatYear = locale.format("%Y"),
     formatTips = locale.format("%d %b %Y");
 
-       
+
+
+const range = (start, stop, step = 1) => {
+    return [...Array(stop - start).keys()]
+        .filter(i => !(i % Math.round(step)))
+        .map(v => start + v)
+    }
+
+ 
+function createTickValues(year){
+    let tickValues = [];
+    range(1, 13).forEach(function(d){
+        let v = new Date(year + "-" + d + "-15")
+        tickValues.push(v)
+    })
+    return tickValues;
+}
+
+      
    /*   $.ajax({
         type: "GET",
         contentType: "application/json",

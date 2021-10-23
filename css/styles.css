@@ -3,6 +3,7 @@ $txt-color: white; */
 body {
   background-color: white;
   color: #0f0f0f;
+  font-family: sans-serif;
 }
 
 main {
@@ -113,6 +114,7 @@ g.tick text {
   padding: 20px;
   color: white;
   font-size: 18px;
+  line-height: 1.4;
 }
 
 #grid img.tip {

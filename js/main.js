@@ -39,12 +39,16 @@ var xScale = d3.scaleTime()
     .domain([new Date("2021-01-01"), new Date("2021-12-31")])
     .range([ 0, width ]);
 
-svg.append("g")
+    
+var xAxis = svg.append("g")
+    .attr("class", "x-axis")
     .attr("transform", "translate(0," + (-30) + ")")
     .call(d3.axisBottom(xScale)
-        .ticks(d3.timeMonth.every(1))
-        .tickFormat(window.innerWidth > 800 ? formatMonth : formatShortMonth)
+        .tickValues(createTickValues(2021))
+        .tickFormat(window.innerWidth > 800 ? formatMonth : formatShortMonth) 
     );
+    
+  
 
 // color scale  
 var colorScale = d3.scaleSqrt()
@@ -103,6 +107,8 @@ d3.json("http://airflow.backend-apps.com/api/v1/firestat/?format=json").then(fun
         xScale
             .domain([new Date(year.toString() +"-01-01"), new Date(year.toString()+ "-12-31")])
             .range([ 0, width ]);
+
+        
 
         var rects = svg.selectAll("rect")
             .data(filtered)
@@ -299,10 +305,10 @@ d3.json("http://airflow.backend-apps.com/api/v1/firestat/?format=json").then(fun
             .attr("class", "pic-tip")  
             .append("p")          
             .html(function(d){
-                return "Дата: "+ formatTips(d3.timeParse("%Y-%m-%d %H:%M:%S")(d.min_date)) + "<br>"+
+                return "Дата: <b>"+ formatTips(d3.timeParse("%Y-%m-%d %H:%M:%S")(d.min_date)) + "</b><br>"+
                        "Широта: "+ d.latitude + " пн. ш. " + "<br>"+ 
-                       "Довгота " + d.longitude + " сх. д. <br>"+
-                       "Тривалість: "
+                       "Довгота " + d.longitude + " сх. д. <br>"
+
 
             })
     }
@@ -315,6 +321,10 @@ d3.json("http://airflow.backend-apps.com/api/v1/firestat/?format=json").then(fun
                 "." + d3.timeFormat("%m")(item.date[1])
         return(label)
     }
+
+    
+
+   
 
 
 
