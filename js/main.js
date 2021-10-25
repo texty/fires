@@ -1,3 +1,5 @@
+const API_ROOT = 'https://old.texty.org.ua'
+
 
 d3.select("#grid").style("width", (Math.floor(wrapper/gridItem)) * gridItem + "px");
 
@@ -47,6 +49,7 @@ var xAxis = svg.append("g")
         .tickValues(createTickValues(2021))
         .tickFormat(window.innerWidth > 800 ? formatMonth : formatShortMonth) 
     );
+
     
   
 
@@ -72,7 +75,7 @@ var focusText = focus_wrapper
     
 
 //дані для heatmap
-d3.json("http://airflow.backend-apps.com/api/v1/firestat/?format=json").then(function(mydata){
+d3.json(API_ROOT + "/api/v1/firestat/?format=json").then(function(mydata){
     
     var array = [];
 
@@ -161,7 +164,7 @@ d3.json("http://airflow.backend-apps.com/api/v1/firestat/?format=json").then(fun
         
 
         //точки на карту
-        d3.json("http://airflow.backend-apps.com/api/v1/fires/?country=Ukraine&start_date="+ 
+        d3.json(API_ROOT + "/api/v1/fires/?country=Ukraine&start_date="+ 
                 d3.timeFormat("%Y-%m-%d")(xSelected[0].date[0]) +"&end_date="+ 
                 d3.timeFormat("%Y-%m-%d")(xSelected[0].date[1])).then(function(points){   
         
